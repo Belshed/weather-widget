@@ -1,0 +1,16 @@
+.settings {
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.settings__title {
+  font-size: 21px;
+}
+
+.settings__locations {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}

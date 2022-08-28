@@ -1,0 +1,20 @@
+.location-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: var(--light-grey);
+  transition: box-shadow .2s ease-in-out 0s;
+}
+
+.location-item:hover {
+  box-shadow: 0 3px 5px 1px rgba(0 0 0 / 8%);
+}
+
+.location-item__title {
+  font-size: 14px;
+}
+
+.location-item__delete-button {
+  margin-left: auto;
+}
