@@ -21,6 +21,9 @@ export class Autocomplete extends VueComponent<AutocompleteProps> {
   private readonly placeholder: AutocompleteProps['placeholder']
 
   @Prop()
+  private readonly hint: AutocompleteProps['hint']
+
+  @Prop()
   private readonly value!: AutocompleteProps['value']
 
   @Prop()
@@ -29,8 +32,10 @@ export class Autocomplete extends VueComponent<AutocompleteProps> {
   @Prop()
   private readonly whenInput: AutocompleteProps['whenInput']
 
+  @Prop()
+  private readonly whenBlur: AutocompleteProps['whenBlur']
+
   private handleInput (value: string | AutocompleteItem) {
-    // eslint-disable-next-line no-unused-expressions
     this.whenInput?.(value)
   }
 
@@ -44,10 +49,12 @@ export class Autocomplete extends VueComponent<AutocompleteProps> {
           hide-no-data
           returnObject={this.returnObject}
           items={this.items}
+          hint={this.hint}
           label={this.label}
           placeholder={this.placeholder}
           value={this.value}
           onChange={this.whenChange}
+          onBlur={this.whenBlur}
           {...{
             on: {
               'update:search-input': this.handleInput

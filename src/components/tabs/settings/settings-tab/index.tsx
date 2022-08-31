@@ -7,7 +7,8 @@ import { Select } from '@/components/common/select'
 import { Autocomplete } from '@/components/common/autocomplete'
 import { VueComponent } from '@/types'
 import { AutocompleteItem } from '@/components/common/autocomplete/types'
-import { SettingsTabProps } from './types'
+import { MovedData, SettingsTabProps } from './types'
+import Draggable from 'vuedraggable'
 
 @Component
 export class SettingsTab extends VueComponent<SettingsTabProps> {
@@ -35,7 +36,12 @@ export class SettingsTab extends VueComponent<SettingsTabProps> {
   private readonly whenCitySearch!: SettingsTabProps['whenCitySearch']
 
   @Prop()
+  private readonly whenItemsReorder!: SettingsTabProps['whenItemsReorder']
+
+  @Prop()
   private readonly whenMetricTypeChange!: SettingsTabProps['whenMetricTypeChange']
+
+  cityName: string = ''
 
   handleItemDelete (index: number): void {
     this.whenItemDelete(index)
@@ -45,12 +51,35 @@ export class SettingsTab extends VueComponent<SettingsTabProps> {
     this.whenMetricTypeChange(value)
   }
 
-  handleCityAdd (value: string | AutocompleteItem): void {
-    this.whenCityAdd(typeof value === 'string' ? value : value.text)
+  async handleCityAdd (value: string | AutocompleteItem): Promise<void> {
+    const city = typeof value === 'string' ? value : value.text
+
+    this.cityName = city
+    this.whenCityAdd(city)
+
+    await this.$nextTick()
+
+    this.cityName = ''
   }
 
   handleCitySearch (value: string | AutocompleteItem): void {
-    this.whenCitySearch(typeof value === 'string' ? value : value?.value)
+    const cityName = typeof value === 'string' ? value : value?.value
+
+    this.whenCitySearch(cityName)
+  }
+
+  handleBlur() {
+    this.cityName = ''
+    this.whenCitySearch('')
+  }
+
+  handleItemsOrderChange({ moved }: MovedData) {
+    const items = [...this.items]
+
+    items.splice(moved.oldIndex, 1)
+    items.splice(moved.newIndex, 0, moved.element)
+
+    this.whenItemsReorder(items)
   }
 
   render (): JSX.Element {
@@ -60,27 +89,33 @@ export class SettingsTab extends VueComponent<SettingsTabProps> {
           Настройки
         </h3>
 
-        <ul class={styles.locations}>
+        <Draggable
+          class={styles.locations}
+          value={this.items}
+          onChange={this.handleItemsOrderChange}
+        >
           {this.items.map((item, index) => (
-            <li key={item.name}>
+            <div key={item.name}>
               <LocationItem
                 name={item.name}
                 country={item.country}
                 whenDelete={() => this.handleItemDelete(index)}
               />
-            </li>
+            </div>
           ))}
-        </ul>
+        </Draggable>
 
         <h3 class={styles.title}>
           Добавить город
         </h3>
 
         <Autocomplete
-          value={''}
+          value={this.cityName}
           returnObject
+          hint='Из-за "особенностей" компонента, вводить города нужно на английском языке'
           items={this.citySuggests}
           placeholder="Выберете новый город"
+          whenBlur={this.handleBlur}
           whenInput={this.handleCitySearch}
           whenChange={this.handleCityAdd}
         />

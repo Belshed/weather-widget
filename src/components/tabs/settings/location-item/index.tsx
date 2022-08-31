@@ -28,6 +28,8 @@ export class LocationItem extends VueComponent<LocationItemProps> {
   render (): JSX.Element {
     return (
       <div class={styles.location}>
+        <Icon name="drag"/>
+
         <span class={styles.title}>
           { this.title }
         </span>

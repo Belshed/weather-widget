@@ -3,7 +3,9 @@ import axios, { AxiosInstance } from 'axios'
 import { CommonModule } from '../common-module'
 
 export class ApiModule extends CommonModule {
-  override init (): void {
+  constructor () {
+    super()
+
     const axiosInstance = axios.create({
       baseURL: 'https://api.openweathermap.org'
     })

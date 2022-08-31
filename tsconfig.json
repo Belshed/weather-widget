@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "noImplicitOverride": true,
     "strict": true,
     "importHelpers": true,
     "moduleResolution": "node",
@@ -33,7 +32,6 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "node_modules/vue-tsx-support/enable-check.d.ts"
   ],
   "exclude": [
     "node_modules"

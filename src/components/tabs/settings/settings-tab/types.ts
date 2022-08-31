@@ -7,8 +7,17 @@ export type SettingsTabProps = {
   items: ChosenItem[]
   citySuggests: AutocompleteItem[]
   metricOptions: SelectItem[]
+  whenItemsReorder: (newItems: ChosenItem[]) => void
   whenItemDelete: (index: number) => void
   whenCityAdd: (cityName: string) => void
   whenCitySearch: (cityName: string) => void
   whenMetricTypeChange: (type: MetricType) => void
+}
+
+export type MovedData = {
+  moved: {
+    element: ChosenItem,
+    oldIndex: number,
+    newIndex: number
+  }
 }

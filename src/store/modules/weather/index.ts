@@ -4,7 +4,9 @@ import { LOCAL_STORAGE_KEY } from './constants'
 import { ChosenItem, CityItem, MetricType, WeatherDataResponse } from './types'
 
 export class WeatherModule extends ApiModule {
-  override init (): void {
+  constructor () {
+    super()
+
     try {
       const itemsFromLS = localStorage.getItem(LOCAL_STORAGE_KEY)
 

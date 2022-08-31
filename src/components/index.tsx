@@ -8,7 +8,7 @@ import { SettingsTab } from '@/components/tabs/settings/settings-tab'
 
 import styles from './styles.module.css'
 import { DegreesUnitsNamesMap } from '@/store/modules/weather/constants'
-import { MetricType } from '@/store/modules/weather/types'
+import { ChosenItem, MetricType } from '@/store/modules/weather/types'
 // @ts-expect-error 123
 import debounce from 'debounce'
 import { AutocompleteItem } from './common/autocomplete/types'
@@ -82,6 +82,12 @@ export default class App extends VueComponent {
       }))
   }
 
+  async handleItemsReorder(items: ChosenItem[]) {
+    this.store.setChosenItems(items)
+
+    await this.store.fetchWeatherItems()
+  }
+
   render (): JSX.Element {
     return (
       <v-app>
@@ -102,27 +108,33 @@ export default class App extends VueComponent {
               [styles.bodyFlipped]: this.isSettingsPage
             }}
           >
-            <ul class={styles.locations}>
-              {this.store.fetchedWeatherItems.map((item) => (
-                <li
-                  key={item.id}
-                >
-                  <LocationItem
-                    name={item.name}
-                    degrees={item.main.temp}
-                    country={item.sys.country}
-                    icon={item.weather[0].icon}
-                    description={item.weather[0].description}
-                    humidity={item.main.humidity}
-                    windSpeed={item.wind.speed}
-                    windDegree={item.wind.deg}
-                    visibility={item.visibility}
-                    airPressure={item.main.pressure}
-                    units={this.store.metricType}
-                  />
-                </li>
-              ))}
-            </ul>
+            {this.store.fetchedWeatherItems.length ? (
+              <ul class={styles.locations}>
+                {this.store.fetchedWeatherItems.map((item) => (
+                  <li
+                    key={item.id}
+                  >
+                    <LocationItem
+                      name={item.name}
+                      degrees={item.main.temp}
+                      country={item.sys.country}
+                      icon={item.weather[0].icon}
+                      description={item.weather[0].description}
+                      humidity={item.main.humidity}
+                      windSpeed={item.wind.speed}
+                      windDegree={item.wind.deg}
+                      visibility={item.visibility}
+                      airPressure={item.main.pressure}
+                      units={this.store.metricType}
+                    />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <h3 class={styles.locations}>
+                Города для отображения не выбраны
+              </h3>
+            )}
 
             <div class={styles.settings}>
               <SettingsTab
@@ -130,6 +142,7 @@ export default class App extends VueComponent {
                 metricType={this.store.metricType}
                 citySuggests={this.citySuggests}
                 metricOptions={this.metricTypeOptions}
+                whenItemsReorder={this.handleItemsReorder}
                 whenCitySearch={this.debouncedCitySearch}
                 whenCityAdd={this.handleCityAdd}
                 whenItemDelete={this.handleItemDelete}
