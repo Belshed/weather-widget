@@ -11,3 +11,5 @@ export const DegreesUnitsMap: Record<MetricType, string> = {
   [MetricType.STANDARD]: '°K',
   [MetricType.IMPERIAL]: '°F'
 }
+
+export const LOCAL_STORAGE_KEY = 'weather-items'

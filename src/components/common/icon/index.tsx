@@ -1,12 +1,9 @@
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-export type IconProps = {
-  name: string
-  size: number
-}
+import { VueComponent } from '@/types'
+import { Component, Prop } from 'vue-property-decorator'
+import { IconProps } from './types'
 
 @Component
-export class Icon extends Vue {
+export class Icon extends VueComponent<IconProps> {
   @Prop()
   name!: IconProps['name']
 

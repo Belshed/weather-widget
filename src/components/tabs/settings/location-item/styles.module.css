@@ -1,4 +1,4 @@
-.location-item {
+.location {
   display: flex;
   align-items: center;
   padding: 5px 10px;
@@ -7,14 +7,14 @@
   transition: box-shadow .2s ease-in-out 0s;
 }
 
-.location-item:hover {
+.location:hover {
   box-shadow: 0 3px 5px 1px rgba(0 0 0 / 8%);
 }
 
-.location-item__title {
+.title {
   font-size: 14px;
 }
 
-.location-item__delete-button {
+.deleteButton {
   margin-left: auto;
 }

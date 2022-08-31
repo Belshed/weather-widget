@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900');
+@import url('https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css');
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,11 +17,13 @@ body {
   padding: 10px 10px 20px;
 }
 
-ul {
+.v-application ul {
   list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
-a[href] {
+.v-application a[href] {
   text-decoration: none;
   color: var(--light-blue);
 }

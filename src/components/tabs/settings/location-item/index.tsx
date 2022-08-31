@@ -1,17 +1,13 @@
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
 import { Button } from '@/components/common/button'
 import { Icon } from '@/components/common/icon'
 
 import styles from './styles.module.css'
-
-export type LocationItemProps = {
-  name: string
-  country: string
-  whenDelete: () => void
-}
+import { VueComponent } from '@/types'
+import { LocationItemProps } from './types'
 
 @Component
-export class LocationItem extends Vue {
+export class LocationItem extends VueComponent<LocationItemProps> {
   @Prop()
   private readonly name!: LocationItemProps['name']
 
@@ -31,18 +27,16 @@ export class LocationItem extends Vue {
 
   render (): JSX.Element {
     return (
-      <div class={styles['location-item']}>
-        <span class={styles['location-item__title']}>
+      <div class={styles.location}>
+        <span class={styles.title}>
           { this.title }
         </span>
 
         <Button
-          class={styles['location-item__delete-button']}
-          whenCLick={this.handleDeleteButtonClick}
+          class={styles.deleteButton}
+          whenClick={this.handleDeleteButtonClick}
         >
-          <Icon
-            name="delete"
-          />
+          <Icon name="delete"/>
         </Button>
       </div>
     )

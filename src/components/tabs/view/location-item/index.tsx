@@ -1,26 +1,13 @@
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
 import { DegreesUnitsMap } from '@/store/modules/weather/constants'
 import { Icon } from '@/components/common/icon'
 
 import styles from './styles.module.css'
-import { MetricType } from '@/store/modules/weather/types'
-
-export type LocationItemProps = {
-  name: string
-  country: string
-  degrees: number
-  icon: string
-  description: string
-  humidity: number
-  visibility: number
-  units: MetricType
-  windDegree: number
-  airPressure: number
-  windSpeed: number
-}
+import { VueComponent } from '@/types'
+import { LocationItemProps } from './types'
 
 @Component
-export class LocationItem extends Vue {
+export class LocationItem extends VueComponent<LocationItemProps> {
   @Prop()
   private readonly name!: LocationItemProps['name']
 
@@ -73,30 +60,30 @@ export class LocationItem extends Vue {
   render (): JSX.Element {
     return (
       <article class={styles.location}>
-        <h3 class={styles.location__title}>
+        <h3 class={styles.title}>
           { this.title }
         </h3>
 
-        <div class={styles.location__weather}>
+        <div class={styles.weather}>
           <img
             src={this.iconPath}
             alt={this.title}
-            class={styles['location__weather-ico']}
+            class={styles.weatherIcon}
           />
 
           <div>
-            <div class={styles['location__weather-degrees']}>
+            <div class={styles.weatherDegrees}>
               { this.degreesWithUnits }
             </div>
 
-            <small class={styles['location__weather-description']}>
+            <small class={styles.weatherDescription}>
               { this.description }
             </small>
           </div>
         </div>
 
-        <ul class={styles.location__details}>
-          <li class={styles['location__details-item']}>
+        <ul class={styles.details}>
+          <li class={styles.detailsItem}>
             Ветер: { this.windSpeed } м/с
 
             <Icon
@@ -108,15 +95,15 @@ export class LocationItem extends Vue {
             />
           </li>
 
-          <li class={styles['location__details-item']}>
+          <li class={styles.detailsItem}>
             Влажность: { this.humidity }%
           </li>
 
-          <li class={styles['location__details-item']}>
+          <li class={styles.detailsItem}>
             Видимость: { this.visibilityInKm } км
           </li>
 
-          <li class={styles['location__details-item']}>
+          <li class={styles.detailsItem}>
             Давление: { this.airPressure } гПа
           </li>
         </ul>

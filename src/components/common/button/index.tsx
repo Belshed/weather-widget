@@ -1,14 +1,11 @@
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { VueComponent } from '@/types'
+import { Component, Prop } from 'vue-property-decorator'
 
 import styles from './styles.module.css'
-
-export type ButtonProps = {
-  isDisabled: boolean
-  whenClick: (e: MouseEvent) => void
-}
+import { ButtonProps } from './types'
 
 @Component
-export class Button extends Vue {
+export class Button extends VueComponent<ButtonProps> {
   @Prop({
     default: false
   })

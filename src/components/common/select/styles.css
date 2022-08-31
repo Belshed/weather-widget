@@ -1,0 +1,8 @@
+.select .v-select{
+  border-radius: 5px;
+}
+
+.select .v-input__slot {
+  background-color: var(--light-grey) !important;
+  padding: 0 10px !important;
+}

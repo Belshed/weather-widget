@@ -5,11 +5,11 @@
   gap: 20px;
 }
 
-.settings__title {
+.title {
   font-size: 21px;
 }
 
-.settings__locations {
+.locations {
   display: flex;
   flex-direction: column;
   gap: 7px;
