@@ -9,6 +9,7 @@ import { VueComponent } from '@/types'
 import { AutocompleteItem } from '@/components/common/autocomplete/types'
 import { MovedData, SettingsTabProps } from './types'
 import Draggable from 'vuedraggable'
+import NoCities from '@/components/common/no-cities'
 
 @Component
 export class SettingsTab extends VueComponent<SettingsTabProps> {
@@ -89,21 +90,27 @@ export class SettingsTab extends VueComponent<SettingsTabProps> {
           Настройки
         </h3>
 
-        <Draggable
-          class={styles.locations}
-          value={this.items}
-          onChange={this.handleItemsOrderChange}
-        >
-          {this.items.map((item, index) => (
-            <div key={item.name}>
-              <LocationItem
-                name={item.name}
-                country={item.country}
-                whenDelete={() => this.handleItemDelete(index)}
-              />
-            </div>
-          ))}
-        </Draggable>
+        {this.items.length ? (
+          <Draggable
+            class={styles.locations}
+            value={this.items}
+            onChange={this.handleItemsOrderChange}
+          >
+            {this.items.map((item, index) => (
+              <div key={item.name}>
+                <LocationItem
+                  name={item.name}
+                  country={item.country}
+                  whenDelete={() => this.handleItemDelete(index)}
+                />
+              </div>
+            ))}
+          </Draggable>
+        ) : (
+          <NoCities
+            text='Города для отображения не выбраны'
+          />
+        )}
 
         <h3 class={styles.title}>
           Добавить город

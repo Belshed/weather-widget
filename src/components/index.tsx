@@ -3,22 +3,22 @@ import { RootModule } from '@/store/root'
 import { useStore } from 'vuex-simple'
 import { Button } from './common/button'
 import { Icon } from './common/icon'
-import { LocationItem } from '@/components/tabs/view/location-item'
 import { SettingsTab } from '@/components/tabs/settings/settings-tab'
 
 import styles from './styles.module.css'
 import { DegreesUnitsNamesMap } from '@/store/modules/weather/constants'
 import { ChosenItem, MetricType } from '@/store/modules/weather/types'
-// @ts-expect-error 123
+// @ts-expect-error ts can't find file
 import debounce from 'debounce'
 import { AutocompleteItem } from './common/autocomplete/types'
 import { VueComponent } from '@/types'
+import ViewTab from './tabs/view/view-tab'
 
 @Component
 export default class App extends VueComponent {
   store = useStore<RootModule>(this.$store).weather
 
-  isSettingsPage = true
+  isSettingsPage = false
 
   citySuggests: AutocompleteItem[] = []
 
@@ -34,7 +34,9 @@ export default class App extends VueComponent {
     return debounce(this.handleCitySearch, 300)
   }
 
-  mounted (): void {
+  mounted (){
+    this.isSettingsPage = !this.store.chosenItems.length
+
     this.store.fetchWeatherItems()
   }
 
@@ -108,33 +110,12 @@ export default class App extends VueComponent {
               [styles.bodyFlipped]: this.isSettingsPage
             }}
           >
-            {this.store.fetchedWeatherItems.length ? (
-              <ul class={styles.locations}>
-                {this.store.fetchedWeatherItems.map((item) => (
-                  <li
-                    key={item.id}
-                  >
-                    <LocationItem
-                      name={item.name}
-                      degrees={item.main.temp}
-                      country={item.sys.country}
-                      icon={item.weather[0].icon}
-                      description={item.weather[0].description}
-                      humidity={item.main.humidity}
-                      windSpeed={item.wind.speed}
-                      windDegree={item.wind.deg}
-                      visibility={item.visibility}
-                      airPressure={item.main.pressure}
-                      units={this.store.metricType}
-                    />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <h3 class={styles.locations}>
-                Города для отображения не выбраны
-              </h3>
-            )}
+            <div class={styles.view}>
+              <ViewTab
+                metricType={this.store.metricType}
+                weatherItems={this.store.fetchedWeatherItems}
+              />
+            </div>
 
             <div class={styles.settings}>
               <SettingsTab
